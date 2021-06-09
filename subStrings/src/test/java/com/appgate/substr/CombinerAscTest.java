@@ -10,7 +10,7 @@ import java.util.List;
 public class CombinerAscTest {
 
     @Test
-    public void dddd() {
+    public void shouldMix1ElementVs2() {
         List<List<Integer>> a = new ArrayList<>();
         List<Integer> b = new ArrayList<>();
         b.add(1);
@@ -32,7 +32,7 @@ public class CombinerAscTest {
     }
 
     @Test
-    public void dddd2() {
+    public void shouldMix1ElementVs1() {
         List<List<Integer>> a = new ArrayList<>();
         List<Integer> b = new ArrayList<>();
         b.add(1);
@@ -50,7 +50,7 @@ public class CombinerAscTest {
     }
 
     @Test
-    public void dddd3() {
+    public void shouldMix2ElementVs1() {
         List<List<Integer>> a = new ArrayList<>();
         List<Integer> b = new ArrayList<>();
         b.add(3);
