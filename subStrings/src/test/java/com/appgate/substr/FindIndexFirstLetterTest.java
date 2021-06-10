@@ -4,8 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.appgate.substr.finder.FindIndexFirstLetter.buildIndexsPivote;
+import static com.appgate.substr.finder.function.catalog.SubStrFunctionCatalog.findFirstIndexCharAtStrategy;
 
 public class FindIndexFirstLetterTest {
 
@@ -13,22 +15,22 @@ public class FindIndexFirstLetterTest {
 
 
     @Test
-    public void findZeroIndexes() {
-        List<Integer> indexes = buildIndexsPivote("babgbag","zzz");
+    public void findZeroIndexes() throws ExecutionException, InterruptedException {
+        List<Integer> indexes = buildIndexsPivote("babgbag","zzz",findFirstIndexCharAtStrategy);
 
         Assert.assertEquals(indexes.size(),0);
     }
 
     @Test
-    public void findOneIndex() {
-        List<Integer> indexes = buildIndexsPivote("bagag","bzz");
+    public void findOneIndex() throws ExecutionException, InterruptedException {
+        List<Integer> indexes = buildIndexsPivote("bagag","bzz",findFirstIndexCharAtStrategy);
 
         Assert.assertEquals(indexes.size(),1);
     }
 
     @Test
-    public void find3IndexOfFirtLetter() {
-        List<Integer> indexes = buildIndexsPivote("babgbag","bag");
+    public void find3IndexOfFirtLetter() throws ExecutionException, InterruptedException {
+        List<Integer> indexes = buildIndexsPivote("babgbag","bag",findFirstIndexCharAtStrategy);
 
         Assert.assertEquals(indexes.size(),3);
         Assert.assertEquals(indexes.get(0),new Integer(0));

@@ -12,11 +12,13 @@ public class FindPositions {
         setOfindex.add(indexInit);
         res.add(setOfindex);
 
+        char[] sArray = s.toCharArray();
+        char[] tArray = t.toCharArray();
 
-        for (int j = 1; j < t.toCharArray().length; j++) {
+        for (int j = 1; j < tArray.length; j++) {
             setOfindex = new ArrayList<>();
-            for (int i = indexInit; i < s.toCharArray().length; i++) {
-                if (s.toCharArray()[i] == t.toCharArray()[j]) {
+            for (int i = indexInit; i < sArray.length; i++) {
+                if (sArray[i] == tArray[j]) {
                     setOfindex.add(i);
                 }
             }
