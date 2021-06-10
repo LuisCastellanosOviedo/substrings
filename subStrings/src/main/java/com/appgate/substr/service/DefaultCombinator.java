@@ -1,4 +1,4 @@
-package com.appgate.substr.main;
+package com.appgate.substr.service;
 
 import java.util.ArrayList;
 import java.util.List;

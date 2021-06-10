@@ -1,4 +1,4 @@
-package com.appgate.substr.main;
+package com.appgate.substr.service;
 
 import com.appgate.substr.definition.SubStrDefinition;
 import lombok.extern.log4j.Log4j2;
@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
 
 import static com.appgate.substr.finder.FindIndexFirstLetter.buildIndexsPivote;
 import static com.appgate.substr.finder.function.catalog.SubStrFunctionCatalog.findFirstIndexCharAtStrategy;
-import static com.appgate.substr.main.DefaultCombinator.findAllpossibleCombinations;
+import static com.appgate.substr.service.DefaultCombinator.findAllpossibleCombinations;
 
 @Component
 @Primary

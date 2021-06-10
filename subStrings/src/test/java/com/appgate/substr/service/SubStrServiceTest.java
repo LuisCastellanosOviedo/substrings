@@ -1,4 +1,4 @@
-package com.appgate.substr.main;
+package com.appgate.substr.service;
 
 import org.junit.Assert;
 import org.junit.Before;
