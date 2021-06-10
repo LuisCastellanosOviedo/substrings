@@ -11,20 +11,15 @@ import static com.appgate.substr.finder.function.catalog.SubStrFunctionCatalog.f
 
 public class FindIndexFirstLetterTest {
 
-
-
-
     @Test
     public void findZeroIndexes() throws ExecutionException, InterruptedException {
         List<Integer> indexes = buildIndexsPivote("babgbag","zzz",findFirstIndexCharAtStrategy);
-
         Assert.assertEquals(indexes.size(),0);
     }
 
     @Test
     public void findOneIndex() throws ExecutionException, InterruptedException {
         List<Integer> indexes = buildIndexsPivote("bagag","bzz",findFirstIndexCharAtStrategy);
-
         Assert.assertEquals(indexes.size(),1);
     }
 

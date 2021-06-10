@@ -9,7 +9,7 @@ public class SubStrServiceTest {
     private SubStrService subStrService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         subStrService = new SubStrService();
     }
 

@@ -12,10 +12,10 @@ public class CombinerAsc {
             List<Integer> subCombination = a.get(i);
             int subCombinationSize = subCombination.size();
             for (int j = 0; j < b.size(); j++) {
-                int newElementForCombinartion = b.get(j);
-                if (subCombination.get(subCombinationSize - 1) < newElementForCombinartion) {
+                int newElementForCombinator = b.get(j);
+                if (subCombination.get(subCombinationSize - 1) < newElementForCombinator) {
                     List<Integer> a1 = new ArrayList<>(subCombination);
-                    a1.add(newElementForCombinartion);
+                    a1.add(newElementForCombinator);
                     res.add(a1);
                 }
             }
