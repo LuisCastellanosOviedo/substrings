@@ -6,7 +6,7 @@ import co.com.refactor.analyzer.dto.SocialMediaData;
 
 public interface Analyzer {
 
-    AnalyzerResponse analyze(SocialMediaData socialMediaData);
+    AnalyzerResponse analyze(SocialMention socialMention);
 
     Boolean getType(SocialMention socialMention);
 

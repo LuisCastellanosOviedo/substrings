@@ -16,7 +16,7 @@ public class AnalyzerFactory {
     private Set<Analyzer> analizers;
 
 
-    public Optional<Analyzer> getAnalyzer(SocialMention socialMention){
-       return analizers.stream().filter(x -> x.getType(socialMention)).findFirst();
+    public Optional<Analyzer> getAnalyzer(SocialMention socialMention) {
+        return analizers.stream().filter(x -> x.getType(socialMention)).findFirst();
     }
 }

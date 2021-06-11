@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocialMention {
-
-    private FacebookSocialMention facebookSocialMention;
-    private TwitterSocialMention twitterSocialMention;
-
+public class FacebookSocialMention extends SocialMentionCommon {
+    private String facebookAccount;
+    private List<String> facebookComments;
 }
