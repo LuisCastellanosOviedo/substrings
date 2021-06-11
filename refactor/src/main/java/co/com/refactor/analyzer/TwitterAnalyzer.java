@@ -4,9 +4,12 @@ import co.com.refactor.SocialMention;
 import co.com.refactor.TwitterSocialMention;
 import co.com.refactor.analyzer.definition.Analyzer;
 import co.com.refactor.analyzer.domain.AnalyzerResponse;
-import co.com.refactor.analyzer.dto.SocialMediaData;
+import co.com.refactor.analyzer.dto.risk.RiskDto;
+import co.com.refactor.analyzer.risks.DefaultRiskDefinition;
+import co.com.refactor.analyzer.services.FacebookScoreService;
 import co.com.refactor.dataaccess.DBService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import static co.com.refactor.SocialMentionController.ANALYZED_TWEETS_TABLE;
@@ -21,8 +24,15 @@ public class TwitterAnalyzer implements Analyzer {
     @Autowired
     private TweeterAnalyzerDelegate tweeterAnalyzerDelegate;
 
+    @Autowired
+    @Qualifier("twitterRisk")
+    private DefaultRiskDefinition defaultRiskDefinition;
+
+    @Autowired
+    private FacebookScoreService facebookScoreService;
+
     @Override
-    public AnalyzerResponse analyze(SocialMention socialMention) {
+    public AnalyzerResponse analyze(final SocialMention socialMention) {
         Double tweeterScore = 0d;
         Double facebookScore = 0d;
         TwitterSocialMention twitterSocialMention = socialMention.getTwitterSocialMention();
@@ -30,20 +40,17 @@ public class TwitterAnalyzer implements Analyzer {
 
         analyzerResponse.setMessage("tweeterMessage: " + twitterSocialMention.getMessage());
 
+        tweeterScore = tweeterAnalyzerDelegate.analyzeTweet(analyzerResponse.getMessage(),
+                twitterSocialMention.getTweeterUrl(), twitterSocialMention.getTweeterAccount());
 
-        tweeterScore = tweeterAnalyzerDelegate.analyzeTweet(analyzerResponse.getMessage(), twitterSocialMention.getTweeterUrl(), twitterSocialMention.getTweeterAccount());
-        dbService.insertTweet(ANALYZED_TWEETS_TABLE, tweeterScore, analyzerResponse.getMessage(), twitterSocialMention.getTweeterUrl(), twitterSocialMention.getTweeterAccount());
+        dbService.insertTweet(ANALYZED_TWEETS_TABLE, tweeterScore, analyzerResponse.getMessage(),
+                twitterSocialMention.getTweeterUrl(), twitterSocialMention.getTweeterAccount());
 
+        facebookScore = facebookScoreService
+                .defineScore(analyzerResponse.getMessage(), socialMention.getFacebookSocialMention().getFacebookAccount());
 
-        if (tweeterScore >= -1 && tweeterScore <= -0.5d) {
-            analyzerResponse.setMessage("HIGH_RISK");
-        } else if (tweeterScore > -0.5d && tweeterScore < 0.7d) {
-            analyzerResponse.setMessage("MEDIUM_RISK");
-        } else if (facebookScore >= 0.7d) {
-            analyzerResponse.setMessage("LOW_RISK");
-        }
-
-
+        analyzerResponse.setMessage(defaultRiskDefinition.defineRiskLevel(RiskDto.builder().facebookScore(facebookScore)
+                .tweeterScore(tweeterScore).build()));
         return analyzerResponse;
     }
 
