@@ -18,6 +18,6 @@ public class DAConnection {
 
         // aca no entro en detalles , aca se crea la conexion y se retorna un objeto relacionada a este , no se
         // usan repositories para respetar parte de la definicion de la prueba
-        return new Connection();
+        return new Connection(port, hostUrl);
     }
 }

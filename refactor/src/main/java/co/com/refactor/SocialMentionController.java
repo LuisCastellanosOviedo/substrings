@@ -21,8 +21,8 @@ public class SocialMentionController implements SocialMentionControllerDef {
         this.analyzerFactory = analyzerFactory;
     }
 
-    public String analyze(SocialMention socialMention) {
-        Optional<Analyzer> analyzer = analyzerFactory.getAnalyzer(socialMention);
+    public String analyze(final SocialMention socialMention) {
+        final Optional<Analyzer> analyzer = analyzerFactory.getAnalyzer(socialMention);
 
         if (analyzer.isPresent()) {
             return analyzer.get().analyze(socialMention).getMessage();

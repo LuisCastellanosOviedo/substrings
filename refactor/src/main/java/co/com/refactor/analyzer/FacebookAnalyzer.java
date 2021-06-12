@@ -41,14 +41,13 @@ public class FacebookAnalyzer implements Analyzer {
     public AnalyzerResponse analyze(final SocialMention socialMention) {
         FacebookSocialMention facebookSocialMention = socialMention.getFacebookSocialMention();
         AnalyzerResponse analyzerResponse = new AnalyzerResponse();
-        Double facebookScore = 0d;
 
         String message = facebookMessageDelegate
                 .buildMessage(facebookSocialMention.getMessage(), facebookSocialMention.getFacebookComments());
 
         analyzerResponse.setMessage(message);
 
-        facebookScore = facebookScoreService
+        Double facebookScore = facebookScoreService
                 .defineScore(analyzerResponse.getMessage(), facebookSocialMention.getFacebookAccount());
 
         FacebookEntity facebookEntity = new FacebookEntity(facebookScore, analyzerResponse.getMessage()

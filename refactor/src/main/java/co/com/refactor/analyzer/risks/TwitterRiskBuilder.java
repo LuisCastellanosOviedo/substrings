@@ -33,7 +33,6 @@ public class TwitterRiskBuilder implements DefaultRiskDefinition {
     @PostConstruct
     private void initFacebookRisk() {
         facebookrisk = new HashMap<>();
-
         facebookrisk.put(lowRisk, LOW_RISK);
     }
 

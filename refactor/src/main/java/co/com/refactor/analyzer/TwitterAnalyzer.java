@@ -32,7 +32,8 @@ public class TwitterAnalyzer implements Analyzer {
 
     @Autowired
     public TwitterAnalyzer(TwitterDBService twitterDBService, TweeterAnalyzerDelegate tweeterAnalyzerDelegate,
-                           @Qualifier("twitterRisk") DefaultRiskDefinition defaultRiskDefinition, FacebookScoreService facebookScoreService) {
+                           @Qualifier("twitterRisk") DefaultRiskDefinition defaultRiskDefinition,
+                           FacebookScoreService facebookScoreService) {
         this.twitterDBService = twitterDBService;
         this.tweeterAnalyzerDelegate = tweeterAnalyzerDelegate;
         this.defaultRiskDefinition = defaultRiskDefinition;

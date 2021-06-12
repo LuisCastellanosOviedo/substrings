@@ -13,7 +13,6 @@ public class FacebookDBService {
     @Autowired
     private Connection connection;
 
-
     public void insertFBPost(FacebookEntity facebookEntity) {
 // save to db  connection.save() ....
     }

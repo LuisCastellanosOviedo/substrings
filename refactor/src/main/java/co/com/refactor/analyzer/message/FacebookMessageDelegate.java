@@ -7,10 +7,13 @@ import java.util.List;
 @Component
 public class FacebookMessageDelegate {
 
+    private static final String FACEBOOK_MESSAGE_SUFFIX = "facebookMessage: ";
+    private static final String COMMENTS_MESSAGE = " || comments: ";
+
     public String buildMessage(String facebookMessage, List<String> facebookComments) {
-        facebookMessage = "facebookMessage: " + facebookMessage;
+        facebookMessage = FACEBOOK_MESSAGE_SUFFIX + facebookMessage;
         String comments = facebookComments
                 .stream().reduce("", (h, c) -> h + " " + c);
-        return facebookMessage + " || comments: " + comments;
+        return facebookMessage + COMMENTS_MESSAGE + comments;
     }
 }
