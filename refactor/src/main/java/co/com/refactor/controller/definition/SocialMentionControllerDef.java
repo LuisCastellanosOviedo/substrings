@@ -9,6 +9,6 @@ import io.micronaut.http.annotation.Produces;
 public interface SocialMentionControllerDef {
 
     @Post("/AnalyzeSocialMention")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     String analyze(@Body SocialMention socialMention);
 }
