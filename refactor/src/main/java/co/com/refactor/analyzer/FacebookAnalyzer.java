@@ -1,28 +1,28 @@
 package co.com.refactor.analyzer;
 
-import co.com.refactor.FacebookSocialMention;
-import co.com.refactor.SocialMention;
+import co.com.refactor.model.FacebookSocialMention;
+import co.com.refactor.model.SocialMention;
 import co.com.refactor.analyzer.definition.Analyzer;
 import co.com.refactor.analyzer.domain.AnalyzerResponse;
-import co.com.refactor.analyzer.dto.risk.RiskDto;
+import co.com.refactor.analyzer.risks.dto.RiskDto;
 import co.com.refactor.analyzer.message.FacebookMessageDelegate;
-import co.com.refactor.analyzer.risks.DefaultRiskDefinition;
+import co.com.refactor.analyzer.risks.definition.DefaultRiskDefinition;
 import co.com.refactor.analyzer.services.FacebookScoreService;
-import co.com.refactor.dataaccess.DBService;
+import co.com.refactor.dataaccess.FacebookDBService;
+import co.com.refactor.dataaccess.dbmodel.FacebookEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Predicate;
 
-import static co.com.refactor.SocialMentionController.ANALYZED_FB_TABLE;
 import static java.util.Objects.isNull;
 
 @Component
 public class FacebookAnalyzer implements Analyzer {
 
     @Autowired
-    private DBService dbService;
+    private FacebookDBService facebookDbService;
 
     @Autowired
     @Qualifier("facebookRisk")
@@ -51,19 +51,19 @@ public class FacebookAnalyzer implements Analyzer {
         facebookScore = facebookScoreService
                 .defineScore(analyzerResponse.getMessage(), facebookSocialMention.getFacebookAccount());
 
-        persistFacebookData(facebookSocialMention, analyzerResponse, facebookScore, scoreNeededToPersist);
+        FacebookEntity facebookEntity = new FacebookEntity(facebookScore, analyzerResponse.getMessage()
+                , facebookSocialMention.getFacebookAccount());
+        persistFacebookData(facebookEntity, scoreNeededToPersist);
 
 
         analyzerResponse.setMessage(riskBuilder.defineRiskLevel(RiskDto.builder().facebookScore(facebookScore).build()));
         return analyzerResponse;
     }
 
-    private void persistFacebookData(FacebookSocialMention facebookSocialMention, AnalyzerResponse analyzerResponse,
-                                     Double facebookScore, Predicate<Double> hasScoreToPersist) {
-        if (hasScoreToPersist.test(facebookScore)) {
-            dbService
-                    .insertFBPost(ANALYZED_FB_TABLE, facebookScore, analyzerResponse.getMessage(),
-                            facebookSocialMention.getFacebookAccount());
+    private void persistFacebookData(FacebookEntity facebookEntity, Predicate<Double> hasScoreToPersist) {
+        if (hasScoreToPersist.test(facebookEntity.getFacebookScore())) {
+            facebookDbService
+                    .insertFBPost(facebookEntity);
         }
     }
 

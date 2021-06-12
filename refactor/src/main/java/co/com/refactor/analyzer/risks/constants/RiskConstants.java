@@ -1,4 +1,4 @@
-package co.com.refactor.analyzer.risks;
+package co.com.refactor.analyzer.risks.constants;
 
 public interface RiskConstants {
 

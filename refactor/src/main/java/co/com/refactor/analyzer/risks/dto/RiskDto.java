@@ -1,4 +1,4 @@
-package co.com.refactor.analyzer.dto.risk;
+package co.com.refactor.analyzer.risks.dto;
 
 import lombok.*;
 

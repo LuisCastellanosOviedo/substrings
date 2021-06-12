@@ -1,17 +1,17 @@
-package co.com.refactor;
+package co.com.refactor.dataaccess.dbmodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FacebookSocialMention extends SocialMentionCommon {
+public class FacebookEntity {
+
+    private Double facebookScore;
+    private String message;
     private String facebookAccount;
-    private List<String> facebookComments;
 }

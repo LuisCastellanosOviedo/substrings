@@ -1,6 +1,5 @@
 package co.com.refactor.analyzer.delegate.facebook;
 
-import co.com.refactor.analyzer.FacebookCommentStoreDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

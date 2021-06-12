@@ -1,4 +1,4 @@
-package co.com.refactor.dataaccess.dto;
+package co.com.refactor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DatabaseDto {
-    private String host;
-    private int port;
+public class SocialMentionCommon {
+
+    private String message;
+    private String creationDate;
 }

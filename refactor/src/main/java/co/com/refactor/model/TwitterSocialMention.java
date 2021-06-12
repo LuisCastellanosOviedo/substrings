@@ -1,4 +1,4 @@
-package co.com.refactor;
+package co.com.refactor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocialMentionCommon {
-
-    private String message;
-    private String creationDate;
+public class TwitterSocialMention extends SocialMentionCommon {
+    private String tweeterUrl;
+    private String tweeterAccount;
 }

@@ -1,4 +1,4 @@
-package co.com.refactor.analyzer;
+package co.com.refactor.analyzer.delegate.facebook;
 
 import org.springframework.stereotype.Component;
 

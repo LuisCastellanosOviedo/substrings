@@ -1,6 +1,6 @@
 package co.com.refactor.analyzer;
 
-import co.com.refactor.SocialMention;
+import co.com.refactor.model.SocialMention;
 import co.com.refactor.analyzer.definition.Analyzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

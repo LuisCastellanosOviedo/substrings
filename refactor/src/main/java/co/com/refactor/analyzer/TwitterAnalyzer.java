@@ -1,53 +1,60 @@
 package co.com.refactor.analyzer;
 
-import co.com.refactor.SocialMention;
-import co.com.refactor.TwitterSocialMention;
+import co.com.refactor.analyzer.delegate.twitter.TweeterAnalyzerDelegate;
+import co.com.refactor.model.SocialMention;
+import co.com.refactor.model.TwitterSocialMention;
 import co.com.refactor.analyzer.definition.Analyzer;
 import co.com.refactor.analyzer.domain.AnalyzerResponse;
-import co.com.refactor.analyzer.dto.risk.RiskDto;
-import co.com.refactor.analyzer.risks.DefaultRiskDefinition;
+import co.com.refactor.analyzer.risks.dto.RiskDto;
+import co.com.refactor.analyzer.risks.definition.DefaultRiskDefinition;
 import co.com.refactor.analyzer.services.FacebookScoreService;
-import co.com.refactor.dataaccess.DBService;
+import co.com.refactor.dataaccess.TwitterDBService;
+import co.com.refactor.dataaccess.dbmodel.TwitterEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import static co.com.refactor.SocialMentionController.ANALYZED_TWEETS_TABLE;
 import static java.util.Objects.isNull;
 
 @Component
 public class TwitterAnalyzer implements Analyzer {
 
-    @Autowired
-    private DBService dbService;
+
+    private static final String TWEETER_MESSAGE_HEADER = "tweeterMessage: ";
+
+    private final TwitterDBService twitterDBService;
+
+    private final TweeterAnalyzerDelegate tweeterAnalyzerDelegate;
+
+    private final DefaultRiskDefinition defaultRiskDefinition;
+
+    private final FacebookScoreService facebookScoreService;
 
     @Autowired
-    private TweeterAnalyzerDelegate tweeterAnalyzerDelegate;
-
-    @Autowired
-    @Qualifier("twitterRisk")
-    private DefaultRiskDefinition defaultRiskDefinition;
-
-    @Autowired
-    private FacebookScoreService facebookScoreService;
+    public TwitterAnalyzer(TwitterDBService twitterDBService, TweeterAnalyzerDelegate tweeterAnalyzerDelegate,
+                           @Qualifier("twitterRisk") DefaultRiskDefinition defaultRiskDefinition, FacebookScoreService facebookScoreService) {
+        this.twitterDBService = twitterDBService;
+        this.tweeterAnalyzerDelegate = tweeterAnalyzerDelegate;
+        this.defaultRiskDefinition = defaultRiskDefinition;
+        this.facebookScoreService = facebookScoreService;
+    }
 
     @Override
     public AnalyzerResponse analyze(final SocialMention socialMention) {
-        Double tweeterScore = 0d;
-        Double facebookScore = 0d;
         TwitterSocialMention twitterSocialMention = socialMention.getTwitterSocialMention();
         AnalyzerResponse analyzerResponse = new AnalyzerResponse();
 
-        analyzerResponse.setMessage("tweeterMessage: " + twitterSocialMention.getMessage());
+        analyzerResponse.setMessage(TWEETER_MESSAGE_HEADER + twitterSocialMention.getMessage());
 
-        tweeterScore = tweeterAnalyzerDelegate.analyzeTweet(analyzerResponse.getMessage(),
+        Double tweeterScore = tweeterAnalyzerDelegate.analyzeTweet(analyzerResponse.getMessage(), twitterSocialMention.getTweeterUrl(),
+                twitterSocialMention.getTweeterAccount());
+
+        TwitterEntity twitterEntity = new TwitterEntity( tweeterScore, analyzerResponse.getMessage(),
                 twitterSocialMention.getTweeterUrl(), twitterSocialMention.getTweeterAccount());
 
-        dbService.insertTweet(ANALYZED_TWEETS_TABLE, tweeterScore, analyzerResponse.getMessage(),
-                twitterSocialMention.getTweeterUrl(), twitterSocialMention.getTweeterAccount());
+        twitterDBService.insertTweet(twitterEntity);
 
-        facebookScore = facebookScoreService
-                .defineScore(analyzerResponse.getMessage(), socialMention.getFacebookSocialMention().getFacebookAccount());
+        Double facebookScore = facebookScoreService.defineScore(analyzerResponse.getMessage(), socialMention.getFacebookSocialMention().getFacebookAccount());
 
         analyzerResponse.setMessage(defaultRiskDefinition.defineRiskLevel(RiskDto.builder().facebookScore(facebookScore)
                 .tweeterScore(tweeterScore).build()));

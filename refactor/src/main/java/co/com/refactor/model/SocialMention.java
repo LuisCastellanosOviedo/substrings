@@ -1,4 +1,4 @@
-package co.com.refactor;
+package co.com.refactor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

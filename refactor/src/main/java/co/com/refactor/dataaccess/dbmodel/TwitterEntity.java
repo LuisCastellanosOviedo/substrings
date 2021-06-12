@@ -1,4 +1,5 @@
-package co.com.refactor;
+package co.com.refactor.dataaccess.dbmodel;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TwitterSocialMention extends SocialMentionCommon {
+public class TwitterEntity {
+
+    private Double tweeterScore;
+    private String message;
     private String tweeterUrl;
     private String tweeterAccount;
 }

@@ -1,6 +1,7 @@
 package co.com.refactor.analyzer.risks;
 
-import co.com.refactor.analyzer.dto.risk.RiskDto;
+import co.com.refactor.analyzer.risks.dto.RiskDto;
+import co.com.refactor.analyzer.risks.definition.DefaultRiskDefinition;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import static co.com.refactor.analyzer.risks.FacebookRiskRules.*;
-import static co.com.refactor.analyzer.risks.RiskConstants.*;
+import static co.com.refactor.analyzer.risks.rules.FacebookRiskRules.*;
+import static co.com.refactor.analyzer.risks.constants.RiskConstants.*;
 
 @Component
 @Qualifier("facebookRisk")
