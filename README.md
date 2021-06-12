@@ -1,6 +1,6 @@
 # Substrings and refactor
 
-Se describen la informacion mas relevante del ejercicio.
+Se describe la informacion mas relevante del ejercicio.
 
 
 
